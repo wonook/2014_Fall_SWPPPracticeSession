@@ -33,6 +33,7 @@ When the main screen is displayed in response to an error, the error messages sh
 (error_code: -3)
 - "Invalid username and password combination. Please try again. "
 (error_code: -4)
+
 Your project must use a persistent database running on a server to store the user data. The user interface of the application runs on a separate client device, which you can choose to be one of:
 - a mobile device using a native or web browser user interface
 - a desktop using a web browser user interface
@@ -40,13 +41,13 @@ Your project must use a persistent database running on a server to store the use
 You can select the framework to use from the list that we have prepared. 
 
 ### Notes and Non-Requirements:<br>
-You can assume all user names and passwords are ASCII strings.  You do not need to validate this.  You do not need to support internationalization or localization of your application.<br>
- You do not need to do any form of validation on user passwords.  You are allowed to store passwords as clear-text in the database.<br>
-Note: Normally, this would be exceedingly bad practice for a real application.  In fact, it may be legally negligent (not legal advice).  <br>
-As a reminder, it is strongly recommended that you do not use any of your real passwords in testing!  <br>
- You can ignore concurrent updates and reads to the database.  You do not need to provide any form of offline capability or synchronization<br>
- We do not have specific requirements about colors, fonts, etc.<br>
- The text box for entering the user password must hide the password as you type it.<br>
+- You can assume all user names and passwords are ASCII strings.  You do not need to validate this.  You do not need to support internationalization or localization of your application.
+- You do not need to do any form of validation on user passwords.  You are allowed to store passwords as clear-text in the database.
+ - Note: Normally, this would be exceedingly bad practice for a real application.  In fact, it may be legally negligent (not legal advice).  
+ - As a reminder, it is strongly recommended that you do not use any of your real passwords in testing!  
+- You can ignore concurrent updates and reads to the database.  You do not need to provide any form of offline capability or synchronization
+- We do not have specific requirements about colors, fonts, etc.
+- The text box for entering the user password must hide the password as you type it.
 
 ## 2. Design: Backend<br>
 The backend must use one of the frameworks that we mentioned above. The backend will have a relational DB, with one table with the following schema: "username : string, password : string, count : int", with username enforced to be non-empty, a unique key. The username string will be greater than equal to 5 and up to 20 characters long. And the password string will be greater than equal to 8 and up to 20 characters long. The backend will have one class "UsersModel" that encapsulates all the communication with the DB. If you want to use a NoSql DB like Mongo, you are free to do so. You do not have to use the exact name UsersModel for your model class if your framework has other naming conventions.
