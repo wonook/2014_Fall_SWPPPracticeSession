@@ -12,6 +12,7 @@
 !/log/.keep
 /tmp
 
-/.idea
-*.iml
+*.swp
 *.yml
+*.iml
+/.idea
