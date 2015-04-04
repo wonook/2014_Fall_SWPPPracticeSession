@@ -13,6 +13,7 @@
 /tmp
 
 *.swp
+*.DS_S*
 *.yml
 *.iml
 /.idea

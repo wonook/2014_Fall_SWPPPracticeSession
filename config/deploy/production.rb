@@ -1,3 +1,14 @@
+set :stage, :production
+set :branch, 'master'
+
+set :user, 'wsong0512'
+set :group, fetch(:user)
+set :runner, fetch(:user)
+
+set :app00, "www.wonook.me"
+
+set :rails_env, 'production'
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -7,6 +18,7 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
+server fetch(:app00), user: fetch(:user), roles: %w{web app db}
 
 
 # role-based syntax
@@ -21,6 +33,9 @@
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
+role :app, "#{fetch(:user)}@#{fetch(:app00)}"
+role :db, "#{fetch(:user)}@#{fetch(:app00)}", primary: true
+role :web, "#{fetch(:user)}@#{fetch(:app00)}"
 
 
 # Configuration
