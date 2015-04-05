@@ -10,5 +10,14 @@
 
 <%= yield %>
 
+<br/><br/>
+<% if session[:userid].nil? %>
+    Currently Not Logged in
+<% else %>
+    You are Logged in as <%= User.find(session[:userid]).username %>
+    <%= link_to 'User Page', "/users/#{session[:userid]}" %>
+
+<% end %>
+
 </body>
 </html>

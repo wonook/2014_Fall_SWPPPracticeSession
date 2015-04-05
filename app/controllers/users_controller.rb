@@ -60,8 +60,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        @user.logincount+=1
+        @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-        session[:userid] = u.id
+        session[:userid] = @user.id
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -78,21 +80,25 @@ class UsersController < ApplicationController
     respond_to do |format|
       if u.nil? #username doesn't exist
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity  }
+        @user.errors.add(:username, "doesn't exist")
+        format.json { render json: u.errors, status: :unprocessable_entity  }
       elsif u.password == @user.password #password is correct
+        u.logincount+=1
+        u.save
         format.html { redirect_to u, notice: 'Log in complete.' }
         session[:userid] = u.id
         format.json {  }
       else #password incorrect
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity  }
+        @user.errors.add(:password, "incorrect")
+        format.json { render json: u.errors, status: :unprocessable_entity  }
       end
     end
   end
 
   def logout
     reset_session
-    redirect_to :new
+    redirect_to "/users/new"
   end
 
   def destroyall

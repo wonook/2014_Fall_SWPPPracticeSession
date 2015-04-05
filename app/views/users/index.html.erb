@@ -11,14 +11,18 @@
 
   <tbody>
       <tr>
+        <td>ID</td>
         <td>Username</td>
         <td>Password</td>
+        <td>LoginCount</td>
         <td>Actions</td>
       </tr>
     <% @users.each do |user| %>
       <tr>
+        <td><%= user.id %></td>
         <td><%= user.username %></td>
         <td><%= user.password %></td>
+        <td><%= user.logincount %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,4 +33,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'LogIn/SignUp', new_user_path %>
