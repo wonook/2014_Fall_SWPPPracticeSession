@@ -1,13 +1,23 @@
-<h1>Please enter your credentials below</h1>
 
 <%= form_for(@user) do |f| %>
 <%= render 'form' %>
+    <br/>
+
+
+    <h1>Please enter your credentials below</h1>
+
+    <% if !@error.nil? %>
+    Error message: <br/>
+    <%= @error %>
+    <br/>
+    <% end %>
+
     <div class="actions">
         <%= f.label :username %>
         <%= f.text_field :username %>
 
         <%= f.label :password %>
-        <%= f.text_field :password %>
+        <%= f.password_field :password %>
 
         <%= submit_tag 'Sign up' %>
         <%= submit_tag 'Log In', name: 'login_button' %>

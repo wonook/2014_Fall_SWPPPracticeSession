@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :users
-  post 'signup' => 'users#create'
+  post 'signup' => 'users#signup'
   post 'login' => 'users#login'
   post 'clearData' => 'users#destroyall'
   get 'users/:id/logout' => 'users#logout'
