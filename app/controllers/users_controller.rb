@@ -62,24 +62,24 @@ class UsersController < ApplicationController
       if @user.save
         @user.logincount+=1
         @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
         session[:userid] = @user.id
-        msg = { user_name: "#{@user.username}", login_count: "#{@user.logincount}" }
+        msg = { user_name: @user.username, login_count: @user.logincount }
         format.json { render json: msg }
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
         # format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         if @user.username.length < 5 || @user.username.length > 20
           @error = "The user name should be 5~20 characters long. Please try again."
-          msg = { error_code: "-1" }
+          msg = { error_code: -1 }
           format.json { render json: msg }
         elsif @user.password.length < 8 || @user.password.length >20
           @error = "The password should be 8~20 characters long. Please try again."
-          msg = { error_code: "-2" }
+          msg = { error_code: -2 }
           format.json { render json: msg }
         elsif !User.where(username: @user.username).first.nil?
           @error = "This user name already exists. Please try again."
-          msg = { error_code: "-3" }
+          msg = { error_code: -3 }
           format.json { render json: msg }
         else
           format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -96,24 +96,24 @@ class UsersController < ApplicationController
     respond_to do |format|
       if u.nil? #username doesn't exist
         @error = "Invalid username and password combination. Please try again."
-        format.html { render :new }
         @user.errors.add(:username, "doesn't exist")
-        msg = { error_code: "-4" }
+        msg = { error_code: -4 }
         format.json { render json: msg }
+        format.html { render :new }
         # format.json { render json: u.errors, status: :unprocessable_entity  }
       elsif u.password == @user.password #password is correct
         u.logincount+=1
         u.save
-        format.html { redirect_to u, notice: 'Log in complete.' }
         session[:userid] = u.id
-        msg = { user_name: "#{@user.username}", login_count: "#{@user.logincount}" }
+        msg = { user_name: @user.username, login_count: u.logincount }
         format.json { render json: msg }
+        format.html { redirect_to u, notice: 'Log in complete.' }
       else #password incorrect
         @error = "Invalid username and password combination. Please try again."
-        format.html { render :new }
         @user.errors.add(:password, "incorrect")
-        msg = { error_code: "-4" }
+        msg = { error_code: -4 }
         format.json { render json: msg }
+        format.html { render :new }
         # format.json { render json: u.errors, status: :unprocessable_entity  }
       end
     end
