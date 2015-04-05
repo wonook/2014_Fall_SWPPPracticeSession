@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :destroyall]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -125,9 +125,14 @@ class UsersController < ApplicationController
   end
 
   def destroyall
+    reset_session
     @user = User.all
     @user.each do |u|
       u.destroy
+    end
+    respond_to do |format|
+      msg = {}
+      format.json {render json: msg}
     end
   end
 
