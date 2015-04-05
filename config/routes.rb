@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :users
+  post 'signup' => 'users#create'
+  post 'login' => 'users#login'
+  post 'clearData' => 'users#destroyall'
+  post 'users/logout' => 'users#logout'
 
   get 'welcome/index'
 

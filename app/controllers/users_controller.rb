@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :destroyall]
 
   # GET /users
   # GET /users.json
@@ -24,16 +24,10 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if params[:login_button]
+      login
+    else
+      signup
     end
   end
 
@@ -61,6 +55,53 @@ class UsersController < ApplicationController
     end
   end
 
+  def signup
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        session[:userid] = u.id
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def login
+    @user = User.new(user_params)
+
+    u = User.where(username: @user.username).first
+
+    respond_to do |format|
+      if u.nil? #username doesn't exist
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity  }
+      elsif u.password == @user.password #password is correct
+        format.html { redirect_to u, notice: 'Log in complete.' }
+        session[:userid] = u.id
+        format.json {  }
+      else #password incorrect
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity  }
+      end
+    end
+  end
+
+  def logout
+    reset_session
+    redirect_to :new
+  end
+
+  def destroyall
+    @user = User.all
+    @user.each do |u|
+      u.destroy
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -70,5 +111,6 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params[:user]
+      params.require(:user).permit(:username, :password)
     end
 end
