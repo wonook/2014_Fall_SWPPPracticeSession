@@ -59,7 +59,22 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     respond_to do |format|
-      if @user.save
+      if @user.username.length < 5 || @user.username.length > 20
+        @error = "The user name should be 5~20 characters long. Please try again."
+        msg = { error_code: -1 }
+        format.json { render json: msg }
+        format.html { render :new }
+      elsif @user.password.length < 8 || @user.password.length >20
+        @error = "The password should be 8~20 characters long. Please try again."
+        msg = { error_code: -2 }
+        format.json { render json: msg }
+        format.html { render :new }
+      elsif !User.where(username: @user.username).first.nil?
+        @error = "This user name already exists. Please try again."
+        msg = { error_code: -3 }
+        format.json { render json: msg }
+        format.html { render :new }
+      elsif @user.save
         @user.logincount+=1
         @user.save
         session[:userid] = @user.id
@@ -68,22 +83,8 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         # format.json { render :show, status: :created, location: @user }
       else
+        format.json { render json: @user.errors, status: :unprocessable_entity }
         format.html { render :new }
-        if @user.username.length < 5 || @user.username.length > 20
-          @error = "The user name should be 5~20 characters long. Please try again."
-          msg = { error_code: -1 }
-          format.json { render json: msg }
-        elsif @user.password.length < 8 || @user.password.length >20
-          @error = "The password should be 8~20 characters long. Please try again."
-          msg = { error_code: -2 }
-          format.json { render json: msg }
-        elsif !User.where(username: @user.username).first.nil?
-          @error = "This user name already exists. Please try again."
-          msg = { error_code: -3 }
-          format.json { render json: msg }
-        else
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
       end
     end
   end
