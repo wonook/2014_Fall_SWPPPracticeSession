@@ -9,5 +9,5 @@ one:
 two:
   username: Clinton
   #password: MyString
-  password_digest: <%= BCrypt::Password.create("ihavehilary") %>
+  password_digest: <%= BCrypt::Password.create("ihatehilary") %>
   counter: 1

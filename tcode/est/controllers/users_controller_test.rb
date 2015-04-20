@@ -30,6 +30,17 @@ class UsersControllerTest < ActionController::TestCase
     json = JSON.parse(response.body)
     assert json['error_code'] == -3
   end
+  test '#signup_failure_dupl2' do
+    post :signup, {'username' => 'Hilary', 'password' => 'testfail'}
+    json = JSON.parse(response.body)
+    assert json['error_code'] == -3
+  end
+  test '#login_success' do
+    post :login, {'username' => 'Hilary', 'password' => 'iloveclinton'}
+    json = JSON.parse(response.body)
+    assert json['user_name'] == 'Romeo'
+    assert json['login_count'] == 101
+  end
   # test "the truth" do
   #   assert true
   # end
