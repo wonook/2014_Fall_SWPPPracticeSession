@@ -21,8 +21,7 @@ end
 
 
 if __FILE__ == $0
-    puts DateCalculator.convert(366)
-      # infinite loop! hell yeah!
+    puts DateCalculator.convert(ARGV[0].to_i)
 end
 
 # pseudo code
