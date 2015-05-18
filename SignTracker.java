@@ -1,5 +1,5 @@
-public class SignTracker {
-  public void signHasChanged() {
+public class SignTracker implements Tracker {
+  public void inform() {
     System.out.println("SignTracker: sign has changed!");
   }
 }
