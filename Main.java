@@ -4,12 +4,14 @@ public class Main {
     ParityTracker parityTracker = new ParityTracker();
     ValueTracker valueTracker1 = new ValueTracker();
     ValueTracker valueTracker2 = new ValueTracker();
+    ValueMonitorWrapper valueMonitorWrapper = new ValueMonitorWrapper();
 
     DataStore dataStore = new DataStore(1);
     dataStore.addSignTracker(signTracker);
     dataStore.addParityTracker(parityTracker);
     dataStore.addValueTracker(valueTracker1);
     dataStore.addValueTracker(valueTracker2);
+    dataStore.addValueTracker(valueMonitorWrapper);
 
     dataStore.setData(2);
     System.out.println();
