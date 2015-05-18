@@ -1,17 +1,17 @@
+import java.util.LinkedList;
+import java.util.List;
+
 public class DataStore {
   private Integer data;
-  private SignTracker signTracker;
-  private ParityTracker parityTracker;
-  private ValueTracker valueTracker;
+  private List<SignTracker> signTrackerList;
+  private List<ParityTracker> parityTrackerList;
+  private List<ValueTracker> valueTrackerList;
 
-  public DataStore(Integer data,
-                   SignTracker signTracker,
-                   ParityTracker parityTracker,
-                   ValueTracker valueTracker) {
+  public DataStore(Integer data) {
     this.data = data;
-    this.signTracker = signTracker;
-    this.parityTracker = parityTracker;
-    this.valueTracker = valueTracker;
+    this.signTrackerList = new LinkedList<>();
+    this.parityTrackerList = new LinkedList<>();
+    this.valueTrackerList = new LinkedList<>();
   }
 
   public Integer getData() {
@@ -19,19 +19,37 @@ public class DataStore {
   }
 
   public void setData(Integer data) {
-    if (valueChanged(this.data, data)) {
-      valueTracker.valueHasChanged();
+    if (signChanged(this.data, data)) {
+      for (SignTracker signTracker : signTrackerList) {
+        signTracker.signHasChanged();
+      }
     }
 
     if (parityChanged(this.data, data)) {
-      parityTracker.parityHasChanged();
+      for (ParityTracker parityTracker : parityTrackerList) {
+        parityTracker.parityHasChanged();
+      }
     }
 
-    if (signChanged(this.data, data)) {
-      signTracker.signHasChanged();
+    if (valueChanged(this.data, data)) {
+      for (ValueTracker valueTracker : valueTrackerList) {
+        valueTracker.valueHasChanged();
+      }
     }
 
     this.data = data;
+  }
+
+  public void addSignTracker(SignTracker signTracker) {
+    signTrackerList.add(signTracker);
+  }
+
+  public void addParityTracker(ParityTracker parityTracker) {
+    parityTrackerList.add(parityTracker);
+  }
+
+  public void addValueTracker(ValueTracker valueTracker) {
+    valueTrackerList.add(valueTracker);
   }
 
   private static boolean valueChanged(Integer i1, Integer i2) {
