@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+Welcome <%= @user.username %>, <br>
+You have logged in <%= @user.logincount %> times.
+
+<br/>
+
+<%= link_to 'Logout', "/users/#{@user.id}/logout" %>
+
+<br/>
+<br/>
+<br/><br/><br/>
+
+<%= link_to 'Edit User Info', edit_user_path(@user) %> |
+<%= link_to 'Show Full List', users_path %>

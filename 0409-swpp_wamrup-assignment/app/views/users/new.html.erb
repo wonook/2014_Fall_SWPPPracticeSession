@@ -1,0 +1,29 @@
+
+<%= form_for(@user) do |f| %>
+    <h1>Please enter your credentials below</h1>
+
+    <% if !@error.nil? %>
+    Error message: <br/>
+    <%= @error %>
+    <br/>
+    <% end %>
+
+    <div class="actions">
+        <%= f.label :username %>
+        <%= f.text_field :username %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <%= submit_tag 'Sign up' %>
+        <%= submit_tag 'Log In', name: 'login_button' %>
+    </div>
+
+
+    <br/><br/><br/><br/><br/>
+    <%= render 'form' %>
+<% end %>
+
+<br/><br/><br/>
+
+<%= link_to 'Show Full List', users_path %>

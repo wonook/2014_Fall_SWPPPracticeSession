@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swppwarmup</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+<br/><br/>
+<% if session[:userid].nil? %>
+    Currently Not Logged in
+<% else %>
+    You are Logged in as <%= User.find(session[:userid]).username %>
+    <%= link_to 'User Page', "/users/#{session[:userid]}" %>
+
+<% end %>
+
+</body>
+</html>
