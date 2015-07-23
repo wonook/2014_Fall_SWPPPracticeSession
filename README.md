@@ -1,1 +1,1 @@
-# SWPPPracticeSession
+# swpp-dpjava-practice
